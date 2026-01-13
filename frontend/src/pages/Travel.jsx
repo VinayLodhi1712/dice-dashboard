@@ -20,8 +20,7 @@ export default function Travel() {
 
   return (
     <div>
-      {/* Header */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-4 overflow-x-auto">
         <h1 className="text-2xl font-semibold">
           Travel Requests
         </h1>
@@ -31,21 +30,18 @@ export default function Travel() {
         </Button>
       </div>
 
-      {/* Tabs */}
       <Tabs
         tabs={tabs}
         activeTab={activeTab}
         onChange={setActiveTab}
       />
 
-      {/* Table */}
-      <Table
+      <Table className="min-w-[700px] w-full text-sm"
         columns={tableColumns}
         data={filteredData}
         pageSizeOptions={[5,10,20]}
       />
 
-      {/* Modal */}
       <AppModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -56,7 +52,6 @@ export default function Travel() {
         </p>
 
         <Button
-          variant="secondary"
           onClick={() => setIsModalOpen(false)}
         >
           Close

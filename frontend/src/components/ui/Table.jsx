@@ -9,10 +9,11 @@ export default function Table({
   const [pageSize, setPageSize] = useState(defaultPageSize);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageInput, setPageInput] = useState("1");
+  console.log("pageInput : ",pageInput)
 
   const totalPages = Math.max(1, Math.ceil(data.length / pageSize));
+  console.log("totalPages : ",totalPages)
 
-  // ✅ Ensure currentPage is always valid (NO useEffect)
   if (currentPage > totalPages) {
     setCurrentPage(totalPages);
     setPageInput(String(totalPages));
@@ -31,7 +32,6 @@ export default function Table({
 
   return (
     <div className="bg-white border rounded-md mt-4">
-      {/* Table */}
       <table className="w-full text-sm">
         <thead className="bg-gray-100">
           <tr>
@@ -68,14 +68,12 @@ export default function Table({
       </table>
 
       <div className="flex items-center justify-between p-4 border-t">
-        {/* Left info */}
         <span className="text-sm text-gray-600">
           Page {currentPage} of {totalPages}
         </span>
 
-        {/* Right controls */}
         <div className="flex items-center gap-4">
-          {/* Page size */}
+         
           <select
             value={pageSize}
             onChange={(e) => {
@@ -91,7 +89,6 @@ export default function Table({
             ))}
           </select>
 
-          {/* Jump to page */}
           <div className="flex items-center gap-2">
             <span className="text-sm text-gray-600">Go to</span>
 
@@ -113,7 +110,7 @@ export default function Table({
             </button>
           </div>
 
-          {/* Prev / Next */}
+         
           <div className="flex gap-2">
             <button
               disabled={currentPage === 1}

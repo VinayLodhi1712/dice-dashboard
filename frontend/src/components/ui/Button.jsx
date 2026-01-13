@@ -1,24 +1,11 @@
 export default function Button({
   children,
   onClick,
-  type = "button",
-  variant = "primary",
 }) {
-  const base =
-    "px-4 py-2 rounded text-sm font-medium transition";
-
-  const variants = {
-    primary:
-      "bg-blue-600 text-white hover:bg-blue-700",
-    secondary:
-      "bg-gray-200 text-gray-800 hover:bg-gray-300",
-  };
-
   return (
     <button
-      type={type}
       onClick={onClick}
-      className={`${base} ${variants[variant]}`}
+      className="px-4 py-2 rounded text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 transition"
     >
       {children}
     </button>
