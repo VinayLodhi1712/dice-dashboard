@@ -14,7 +14,7 @@ function App() {
 
       <main className="flex-1 p-8 pt-16 md:pt-8">
         <Routes>
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/travel" element={<Travel />} />
           <Route path="/expenses" element={<Expenses />} />
