@@ -44,7 +44,7 @@ export default function Advances() {
       />
 
       <ModalUI
-        isOpen={isModalOpen}
+        open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title="Add New Advance"
       >

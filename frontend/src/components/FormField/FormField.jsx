@@ -1,5 +1,5 @@
 import React from "react";
-import FieldRenderer from "./fieldRender";
+import { FieldRenderer } from "./fieldRender";
 
 export default function FormField({ field, value, onChange, formData, onConfigClick }) {
 

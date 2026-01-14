@@ -2,7 +2,7 @@ import { useState } from "react";
 import Tabs from "../components/ui/Tabs";
 import Table from "../components/ui/Table";
 import Button from "../components/ui/Button";
-import AppModal from "../components/ui/Modal";
+import ModalUI from "../components/ui/Modal";
 import {
   tableColumns,
   tableData,
@@ -36,14 +36,16 @@ export default function Travel() {
         onChange={setActiveTab}
       />
 
-      <Table className="min-w-[700px] w-full text-sm"
+      <Table
+        className="min-w-[700px] w-full text-sm"
         columns={tableColumns}
         data={filteredData}
-        pageSizeOptions={[5,10,20]}
+        pageSizeOptions={[5, 10, 20]}
       />
 
-      <AppModal
-        isOpen={isModalOpen}
+      {/* Modal */}
+      <ModalUI
+        open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title="Add New Trip"
       >
@@ -53,10 +55,11 @@ export default function Travel() {
 
         <Button
           onClick={() => setIsModalOpen(false)}
+          className="w-full"
         >
           Close
         </Button>
-      </AppModal>
+      </ModalUI>
     </div>
   );
 }

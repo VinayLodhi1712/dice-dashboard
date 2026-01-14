@@ -43,7 +43,7 @@ export default function Expenses() {
       />
 
       <ModalUI
-        isOpen={isModalOpen}
+        open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title="Add New Expense"
       >
