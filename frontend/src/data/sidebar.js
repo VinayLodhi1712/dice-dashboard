@@ -2,8 +2,12 @@
 
 export const sidebarItems = [
   {
-    name: "About",
-    path: "/about",
+    name: "Form",
+    path: "/form",
+  },
+  {
+    name: "Config",
+    path: "/config"
   },
   {
     name: "Finance & Travel",
@@ -76,4 +80,5 @@ export const sidebarItems = [
       },
     ],
   },
+  
 ];

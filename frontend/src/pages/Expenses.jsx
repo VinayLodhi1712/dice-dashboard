@@ -2,7 +2,7 @@ import { useState } from "react";
 import Tabs from "../components/ui/Tabs";
 import Table from "../components/ui/Table";
 import Button from "../components/ui/Button";
-import AppModal from "../components/ui/Modal";
+import ModalUI from "../components/ui/Modal";
 import {
   tableColumns,
   tableData,
@@ -42,7 +42,7 @@ export default function Expenses() {
         pageSizeOptions={[5, 10, 20]}
       />
 
-      <AppModal
+      <ModalUI
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title="Add New Expense"
@@ -54,7 +54,7 @@ export default function Expenses() {
         <Button onClick={() => setIsModalOpen(false)}>
           Close
         </Button>
-      </AppModal>
+      </ModalUI>
     </div>
   );
 }

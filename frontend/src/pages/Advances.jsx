@@ -2,11 +2,12 @@ import { useState } from "react";
 import Tabs from "../components/ui/Tabs";
 import Table from "../components/ui/Table";
 import Button from "../components/ui/Button";
-import AppModal from "../components/ui/Modal";
+import ModalUi from "../components/ui/Modal";
 import {
   tableColumns,
   tableData,
 } from "../data/fakeTableData";
+import ModalUI from "../components/ui/Modal";
 
 export default function Advances() {
   const [activeTab, setActiveTab] = useState("Approved");
@@ -42,7 +43,7 @@ export default function Advances() {
         pageSizeOptions={[5, 10, 20]}
       />
 
-      <AppModal
+      <ModalUI
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title="Add New Advance"
@@ -54,7 +55,7 @@ export default function Advances() {
         <Button onClick={() => setIsModalOpen(false)}>
           Close
         </Button>
-      </AppModal>
+      </ModalUI>
     </div>
   );
 }
