@@ -7,13 +7,14 @@ import Travel from "./pages/Travel";
 import Expenses from "./pages/Expenses";
 import Advances from "./pages/Advances";
 import Config from "./pages/Config";
+import SeatSelection from "./pages/SeatSelection";
 
 function App() {
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex h-screen bg-gray-50 overflow-hidden">
       <Sidebar />
 
-      <main className="flex-1 p-8 pt-16 md:pt-8">
+      <main className="flex-1 overflow-y-auto p-8 pt-16 md:pt-8">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/form" element={<UserForm />} />
@@ -21,6 +22,7 @@ function App() {
           <Route path="/expenses" element={<Expenses />} />
           <Route path="/advances" element={<Advances />} />
           <Route path="/config" element={<Config/>} />
+          <Route path="/seatBooking" element={<SeatSelection/>} />
         </Routes>
       </main>
     </div>

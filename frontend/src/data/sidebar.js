@@ -80,5 +80,7 @@ export const sidebarItems = [
       },
     ],
   },
-  
+  {
+    name:"Flight", path: "/seatBooking"
+  }
 ];

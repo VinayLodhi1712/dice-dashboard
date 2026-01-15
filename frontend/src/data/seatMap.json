@@ -1,0 +1,71 @@
+{
+    "seatMap": {
+        "map": [
+            {
+                "cols": 6,
+                "firstCol": 1,
+                "firstRow": 1,
+                "id": "b6a12b37-317f-4305-83fc-03d0e65258dd",
+                "rows": 30,
+                "seats": [
+                    {
+                        "aisle": false,
+                        "amount": 0.0,
+                        "booked": true,
+                        "code": "1-A@1A|1-A|W|false|0.0",
+                        "column": 1,
+                        "empty": false,
+                        "exitRow": false,
+                        "legroom": false,
+                        "row": 1,
+                        "window": true,
+                        "emergency": false,
+                        "inPolicy": true
+                    },
+                    {
+                        "aisle": false,
+                        "amount": 0.0,
+                        "booked": true,
+                        "code": "1-B@1B|1-B|null|false|0.0",
+                        "column": 2,
+                        "empty": false,
+                        "exitRow": false,
+                        "legroom": false,
+                        "row": 1,
+                        "window": false,
+                        "emergency": false,
+                        "inPolicy": true
+                    },
+                    {
+                        "aisle": false,
+                        "amount": 0.0,
+                        "booked": true,
+                        "code": "1-C@1C|1-C|A|false|0.0",
+                        "column": 3,
+                        "empty": false,
+                        "exitRow": false,
+                        "legroom": false,
+                        "row": 1,
+                        "window": false,
+                        "emergency": false,
+                        "inPolicy": true
+                    },
+                    {
+                        "aisle": false,
+                        "amount": 0.0,
+                        "booked": true,
+                        "code": "1-D@1D|1-D|A|false|0.0",
+                        "column": 4,
+                        "empty": false,
+                        "exitRow": false,
+                        "legroom": false,
+                        "row": 1,
+                        "window": false,
+                        "emergency": false,
+                        "inPolicy": true
+                    }
+                ]
+            }
+        ]
+    }
+}

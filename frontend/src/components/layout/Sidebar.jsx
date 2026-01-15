@@ -2,15 +2,24 @@ import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { sidebarItems } from "../../data/sidebar";
 
-function MenuItem({ item, collapsed, onMobileClose, level = 0 }) {
-  const [isOpen, setIsOpen] = useState(false);
+function MenuItem({
+  item,
+  collapsed,
+  openItems,
+  toggleItem,
+  onMobileClose,
+  level = 0,
+}) {
   const hasChildren = item.children && item.children.length > 0;
+
+  const itemKey = item.path || item.name;
+
+  const isOpen = openItems[itemKey] || false;
 
   const handleClick = () => {
     if (hasChildren && !collapsed) {
-      setIsOpen(!isOpen);
-      onMobileClose();
-    } else if (!hasChildren) {
+      toggleItem(itemKey);
+    } else {
       onMobileClose();
     }
   };
@@ -18,14 +27,13 @@ function MenuItem({ item, collapsed, onMobileClose, level = 0 }) {
   const handleIconClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsOpen(!isOpen);
+    toggleItem(itemKey);
   };
 
-  const indentWidth = level * 20; // 20px per level
+  const indentWidth = level * 20;
 
   return (
     <div>
-      {/* Parent/Child Item */}
       <NavLink
         to={item.path || "#"}
         onClick={handleClick}
@@ -34,9 +42,15 @@ function MenuItem({ item, collapsed, onMobileClose, level = 0 }) {
             isActive && !hasChildren
               ? "bg-blue-50 text-blue-600 font-medium border-l-4 border-blue-600"
               : "text-gray-800 hover:bg-gray-50"
-          } ${collapsed && level === 0 ? "flex items-center justify-center" : ""}`
+          } ${
+            collapsed && level === 0 ? "flex items-center justify-center" : ""
+          }`
         }
-        style={!collapsed ? { paddingLeft: `${16 + indentWidth}px`, paddingRight: '16px' } : {}}
+        style={
+          !collapsed
+            ? { paddingLeft: `${16 + indentWidth}px`, paddingRight: "16px" }
+            : {}
+        }
         title={collapsed ? item.name : ""}
       >
         {collapsed && level === 0 ? (
@@ -44,6 +58,7 @@ function MenuItem({ item, collapsed, onMobileClose, level = 0 }) {
         ) : (
           <div className="flex items-center justify-between w-full">
             <span>{item.name}</span>
+
             {!collapsed && hasChildren && (
               <button
                 onClick={handleIconClick}
@@ -51,7 +66,7 @@ function MenuItem({ item, collapsed, onMobileClose, level = 0 }) {
                 aria-label={isOpen ? "Collapse" : "Expand"}
               >
                 <svg
-                  className="w-4 h-4 text-gray-500 transition-transform duration-200"
+                  className="w-4 h-4 text-gray-500"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -77,7 +92,6 @@ function MenuItem({ item, collapsed, onMobileClose, level = 0 }) {
         )}
       </NavLink>
 
-      {/* Children Items - Recursive */}
       {!collapsed && isOpen && hasChildren && (
         <div>
           {item.children.map((child, index) => (
@@ -85,6 +99,8 @@ function MenuItem({ item, collapsed, onMobileClose, level = 0 }) {
               key={index}
               item={child}
               collapsed={collapsed}
+              openItems={openItems}
+              toggleItem={toggleItem}
               onMobileClose={onMobileClose}
               level={level + 1}
             />
@@ -98,6 +114,21 @@ function MenuItem({ item, collapsed, onMobileClose, level = 0 }) {
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [openItems, setOpenItems] = useState(() => {
+    const saved = localStorage.getItem("sidebar-open");
+    return saved ? JSON.parse(saved) : {};
+  });
+
+  const toggleItem = (key) => {
+    setOpenItems((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
+
+  useEffect(() => {
+    localStorage.setItem("sidebar-open", JSON.stringify(openItems));
+  }, [openItems]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -155,10 +186,10 @@ export default function Sidebar() {
           ${mobileOpen ? "translate-x-0" : "-translate-x-full"}
           overflow-y-auto scrollbar-thin
         `}
-        style={{ 
-          maxHeight: '100vh',
-          scrollbarWidth: 'thin',
-          scrollbarColor: '#CBD5E0 transparent'
+        style={{
+          maxHeight: "100vh",
+          scrollbarWidth: "thin",
+          scrollbarColor: "#CBD5E0 transparent",
         }}
       >
         <div
@@ -213,6 +244,8 @@ export default function Sidebar() {
               key={index}
               item={item}
               collapsed={collapsed}
+              openItems={openItems}
+              toggleItem={toggleItem}
               onMobileClose={() => setMobileOpen(false)}
             />
           ))}

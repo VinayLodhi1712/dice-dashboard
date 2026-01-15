@@ -2,33 +2,88 @@ export const FieldRenderer = ({ field, value, onChange }) => {
   const commonClasses =
     "w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg";
 
-  const inputProps = {
-    placeholder: field.hint,
+  const commonProps = {
     value: value || "",
-    onChange: (e) => onChange(field.id, e.target.value),
+    placeholder: field.hint,
     disabled: !field.editable,
     required: field.mandatory,
     className: commonClasses,
-    ...(field.minLength && { minLength: field.minLength }),
-    ...(field.maxLength && { maxLength: field.maxLength }),
-    ...(field.minDate && { min: field.minDate }),
-    ...(field.maxDate && { max: field.maxDate }),
+    onChange: (e) => onChange(field.id, e.target.value),
   };
 
-  if (field.fieldType === "Date") {
-    return <input type="date" {...inputProps} />;
-  }
+  switch (field.fieldType) {
+    case "Text":
+      return <input type="text" {...commonProps} />;
 
-  if (field.fieldType === "Phone") {
-    return (
-      <input
-        type="tel"
-        inputMode="numeric"
-        pattern="[0-9]*"
-        {...inputProps}
-      />
-    );
-  }
+    case "TextArea":
+      return <textarea rows={4} {...commonProps} />;
 
-  return <input type="text" {...inputProps} />;
+    case "Phone":
+      return (
+        <input
+          type="tel"
+          inputMode="numeric"
+          pattern="[0-9]*"
+          {...commonProps}
+        />
+      );
+
+    case "Email":
+      return <input type="email" {...commonProps} />;
+
+    case "Number":
+    case "Currency":
+    case "Rating":
+      return (
+        <input
+          type="number"
+          min={field.min}
+          max={field.max}
+          {...commonProps}
+        />
+      );
+
+    case "Date":
+      return (
+        <input
+          type="date"
+          min={field.minDate}
+          max={field.maxDate}
+          {...commonProps}
+        />
+      );
+
+    case "Dropdown":
+      return (
+        <select {...commonProps}>
+          <option value="">Select</option>
+          {(field.options || []).map((opt, idx) => (
+            <option key={idx} value={opt}>
+              {opt}
+            </option>
+          ))}
+        </select>
+      );
+
+    case "MultiSelect":
+      return (
+        <select multiple {...commonProps}>
+          {(field.options || []).map((opt, idx) => (
+            <option key={idx} value={opt}>
+              {opt}
+            </option>
+          ))}
+        </select>
+      );
+
+    case "File":
+      return <input type="file" {...commonProps} />;
+
+    case "IRN":
+    case "MasterField":
+      return <input type="text" {...commonProps} />;
+
+    default:
+      return <input type="text" {...commonProps} />;
+  }
 };

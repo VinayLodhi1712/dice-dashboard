@@ -20,6 +20,23 @@ export default function FieldPreview({ field }) {
       return;
     }
 
+    if (
+      (field.fieldType === "Number" ||
+        field.fieldType === "Currency" ||
+        field.fieldType === "Rating") &&
+      (field.min !== undefined || field.max !== undefined)
+    ) {
+      const num = Number(val);
+      if (field.min !== undefined && num < field.min) {
+        setError(`Value must be greater than ${field.min}`);
+        return;
+      }
+      if (field.max !== undefined && num > field.max) {
+        setError(`Value must be less than ${field.max}`);
+        return;
+      }
+    }
+
     if (field.fieldType === "Date") {
       if (field.minDate && val < field.minDate) {
         setError(`Date must be after ${field.minDate}`);
@@ -31,11 +48,9 @@ export default function FieldPreview({ field }) {
       }
     }
 
-    if (field.fieldType === "Phone" && value) {
-      if (!/^\d+$/.test(value)) {
-        setError("Only numbers allowed");
-        return;
-      }
+    if (field.fieldType === "Phone" && !/^\d+$/.test(val)) {
+      setError("Only numbers allowed");
+      return;
     }
 
     setError("");
@@ -56,25 +71,56 @@ export default function FieldPreview({ field }) {
 
   return (
     <div className="space-y-1">
-      {field.fieldType === "Text" && <input type="text" {...commonProps} />}
+      {["Text", "Email", "IRN", "MasterField"].includes(field.fieldType) && (
+        <input type="text" {...commonProps} />
+      )}
+
+      {field.fieldType === "TextArea" && <textarea rows={3} {...commonProps} />}
 
       {field.fieldType === "Phone" && (
         <input
           type="tel"
           inputMode="numeric"
-          pattern="[0-9]*"
-          {...commonProps}
+          value={value}
+          placeholder={field.hint}
+          onChange={(e) => {
+            const val = e.target.value;
+
+            if (!/^\d*$/.test(val)) return;
+            if (field.maxLength && val.length > field.maxLength) return;
+
+            setValue(val);
+            validate(val);
+          }}
+          className={`w-full px-4 py-2 border rounded ${
+            error ? "border-red-500" : "border-gray-300"
+          }`}
         />
+      )}
+
+      {["Number", "Currency", "Rating"].includes(field.fieldType) && (
+        <input type="number" {...commonProps} />
       )}
 
       {field.fieldType === "Date" && (
         <input
           type="date"
-          {...commonProps}
           min={field.minDate}
           max={field.maxDate}
+          {...commonProps}
         />
       )}
+
+      {["Dropdown", "MultiSelect"].includes(field.fieldType) && (
+        <select {...commonProps}>
+          <option value="">Preview</option>
+          {(field.options || []).map((opt, i) => (
+            <option key={i}>{opt}</option>
+          ))}
+        </select>
+      )}
+
+      {field.fieldType === "File" && <input type="file" className="w-full" />}
 
       {error && <p className="text-xs text-red-600">{error}</p>}
     </div>
