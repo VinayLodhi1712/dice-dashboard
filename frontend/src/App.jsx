@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Sidebar from "./components/layout/Sidebar";
-
+import Modal from "react-modal";
 import Home from "./pages/Home";
 import UserForm from "./pages/UserForm";
 import Travel from "./pages/Travel";
@@ -8,6 +8,8 @@ import Expenses from "./pages/Expenses";
 import Advances from "./pages/Advances";
 import Config from "./pages/Config";
 import SeatSelection from "./pages/SeatSelection";
+
+Modal.setAppElement("#root");
 
 function App() {
   return (
@@ -22,7 +24,7 @@ function App() {
           <Route path="/expenses" element={<Expenses />} />
           <Route path="/advances" element={<Advances />} />
           <Route path="/config" element={<Config/>} />
-          <Route path="/seatBooking" element={<SeatSelection/>} />
+          <Route path="/seat-booking" element={<SeatSelection/>} />
         </Routes>
       </main>
     </div>

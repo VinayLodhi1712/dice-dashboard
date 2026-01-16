@@ -1,13 +1,13 @@
 import SeatRow from "./SeatRow";
 
-export default function SeatGrid({ rows, selectedSeat, onSelect }) {
+export default function SeatGrid({ rows, selectedSeats, onSelect }) {
   return (
-    <div className="overflow-y-auto max-h-[70vh] px-4">
-      {rows.map((row) => (
+    <div className="flex flex-col gap-3">
+      {rows.map((rowSeats, idx) => (
         <SeatRow
-          key={row.rowNumber}
-          row={row}
-          selectedSeat={selectedSeat}
+          key={idx}
+          rowSeats={rowSeats}
+          selectedSeats={selectedSeats}
           onSelect={onSelect}
         />
       ))}

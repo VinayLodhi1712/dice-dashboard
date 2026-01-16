@@ -81,6 +81,6 @@ export const sidebarItems = [
     ],
   },
   {
-    name:"Flight", path: "/seatBooking"
+    name:"Flight", path: "/seat-booking"
   }
 ];
