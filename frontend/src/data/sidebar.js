@@ -82,5 +82,8 @@ export const sidebarItems = [
   },
   {
     name:"Flight", path: "/seat-booking"
+  },
+  {
+    name:"Offline Forms", path: "/offline-forms"
   }
 ];
