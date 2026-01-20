@@ -25,7 +25,7 @@ export default function useOnlineStatus(onChange) {
     };
 
     check();
-    const i = setInterval(check, 3000);
+    const i = setInterval(check, 1000);
 
     window.addEventListener("online", check);
     window.addEventListener("offline", check);

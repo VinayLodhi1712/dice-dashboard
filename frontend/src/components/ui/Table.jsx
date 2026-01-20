@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 
 export default function Table({
   columns,
@@ -9,10 +9,34 @@ export default function Table({
   const [pageSize, setPageSize] = useState(defaultPageSize);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageInput, setPageInput] = useState("1");
-  console.log("pageInput : ",pageInput)
+  const [searchText, setSearchText] = useState("");
+  const [debouncedSearch, setdebouncedSearch] = useState("");
+  console.log("pageInput : ", pageInput);
 
-  const totalPages = Math.max(1, Math.ceil(data.length / pageSize));
-  console.log("totalPages : ",totalPages)
+  useEffect(()=>{
+    const timer = setTimeout(()=>{
+      setdebouncedSearch(searchText);
+      setCurrentPage(1);
+      setPageInput(1);
+    },300)
+    return () => clearTimeout(timer)
+  }, [searchText]);
+
+  const filteredData = useMemo(() => {
+    if (!debouncedSearch) return data;
+    const lowerSearch = debouncedSearch.toLowerCase();
+    return data.filter((row) =>
+      columns.some((col) =>
+        String(row[col.key] ?? "")
+          .toLowerCase()
+          .includes(lowerSearch),
+      ),
+    );
+  }, [data, debouncedSearch, columns]);
+  const totalPages = Math.max(1, Math.ceil(filteredData.length / pageSize));
+  console.log("totalPages : ", totalPages);
+
+  
 
   if (currentPage > totalPages) {
     setCurrentPage(totalPages);
@@ -20,7 +44,7 @@ export default function Table({
   }
 
   const startIndex = (currentPage - 1) * pageSize;
-  const paginatedData = data.slice(startIndex, startIndex + pageSize);
+  const paginatedData = filteredData.slice(startIndex, startIndex + pageSize);
 
   const goToPage = (page) => {
     if (page < 1) page = 1;
@@ -32,6 +56,17 @@ export default function Table({
 
   return (
     <div className="bg-white border rounded-md mt-4">
+      <div className="p-4 border-b flex justify-between items-center">
+        <input
+          type="text"
+          value={searchText}
+          onChange={(e) => {
+            setSearchText(e.target.value);
+          }}
+          placeholder="Search..."
+          className="w-64 border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
       <table className="w-full text-sm">
         <thead className="bg-gray-100">
           <tr>
@@ -73,7 +108,6 @@ export default function Table({
         </span>
 
         <div className="flex items-center gap-4">
-         
           <select
             value={pageSize}
             onChange={(e) => {
@@ -110,7 +144,6 @@ export default function Table({
             </button>
           </div>
 
-         
           <div className="flex gap-2">
             <button
               disabled={currentPage === 1}
